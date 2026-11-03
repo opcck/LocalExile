@@ -681,6 +681,17 @@ sealed class SkillCatalog(string folder = "data", bool hardMode = false)
         ["ElementalHit"] = "Metadata/Projectiles/ElementalHitArrowCombined",
         ["ElementalHitAltX"] = "Metadata/Projectiles/ElementalHitArrowCombined",
         ["RollingMagma"] = "Metadata/Projectiles/MagmaOrbShort",
+        ["SplitArrow"] = "Metadata/Projectiles/SplitArrowDefault",
+        ["SplitArrowAltX"] = "Metadata/Projectiles/SplitArrowDefault",
+        ["SplitArrowAltY"] = "Metadata/Projectiles/SplitArrowDefault",
+        ["VaalSplitArrow"] = "Metadata/Projectiles/VaalSplitArrowDefault",
+        ["IceShot"] = "Metadata/Projectiles/IceArrow",
+        ["IceShotAltX"] = "Metadata/Projectiles/IceArrow",
+        ["IceShotAltY"] = "Metadata/Projectiles/IceArrow",
+        ["GalvanicArrow"] = "Metadata/Projectiles/ShrapnelShot",
+        ["GalvanicArrowAltX"] = "Metadata/Projectiles/ShrapnelShot",
+        ["GalvanicArrowAltY"] = "Metadata/Projectiles/ShrapnelShot",
+        ["GalvanicArrowRoyale"] = "Metadata/Projectiles/ShrapnelShot",
     };
 
     /// <summary>A Projectiles.dat row by its Id (<c>Metadata/Projectiles/DefaultArrow</c> for a bow's ordinary attack).</summary>

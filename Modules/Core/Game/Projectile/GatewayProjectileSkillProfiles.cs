@@ -23,6 +23,8 @@ static class GatewayProjectileSkillProfiles
 
     public static bool IsKineticBlast(string effect) => effect is "KineticBlast" or "KineticBlastAltX" or "KineticBlastAltY";
     public static bool IsFireball(string metadata) => metadata.Contains("Fireball", StringComparison.Ordinal);
+    public static bool IsIceShot(string effect) => effect is "IceShot" or "IceShotAltX" or "IceShotAltY" or "IceShotRoyale";
+    public static bool IsLightningArrow(string effect) => effect is "LightningArrow" or "LightningArrowAltX" or "LightningArrowRoyale";
 
     public static ProjectileProfile Resolve(string effect, string metadata, Func<string, int> get, double speed, bool attack,
         bool arrows = false)
@@ -68,6 +70,22 @@ static class GatewayProjectileSkillProfiles
             {
                 Lobbed = true, DirectDamage = false, GroundBounceDistance = RollingMagmaBounceCells,
                 EndArea = new("rolling-magma", 0), EndAreaReasons = new HashSet<ProjectileEndReason> { ProjectileEndReason.Landing }
+            };
+        else if (IsIceShot(effect))
+            p = p with
+            {
+                ContactArea = new("ice-shot-cone", get("active_skill_base_area_of_effect_radius") is > 0 and var r ? r : 24, 1)
+                {
+                    ExcludeContactTarget = true,
+                    RespectTerrain = true,
+                }
+            };
+        else if (IsLightningArrow(effect))
+            p = p with
+            {
+                ContactTargets = new("lightning-arrow-targets",
+                    get("lightning_arrow_maximum_number_of_extra_targets") is > 0 and var n ? n : 3,
+                    get("active_skill_base_area_of_effect_radius") is > 0 and var r ? r : 18)
             };
 
         p = GatewayProjectileModifiers.Resolve(p, get, attack, arrows);
@@ -158,6 +176,17 @@ static class GatewayProjectileSkillProfiles
             // Centers lie on the scaled placement circle; only the angle is sampled within each sector.
             var area = contact with { Radius = blast, Offset = placement, MinimumOffset = placement };
             return p with { ContactArea = area, EndArea = area };
+        }
+        if (IsIceShot(effect) && p.ContactArea is { } iceContact)
+        {
+            int radius = SkillArea.Radius(SkillArea.BaseRadius(effect, get), get, spell);
+            var area = iceContact with { Radius = radius };
+            return p with { ContactArea = area, EndArea = null };
+        }
+        if (IsLightningArrow(effect) && p.ContactTargets is { } targets)
+        {
+            int radius = SkillArea.Radius(SkillArea.BaseRadius(effect, get), get, spell);
+            return p with { ContactTargets = targets with { Radius = radius } };
         }
         if (p.EndArea is { } terminal)
             return p with { EndArea = terminal with
