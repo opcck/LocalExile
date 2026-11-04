@@ -433,8 +433,8 @@ static partial class Game
                 else if (m.Aggro && !m.Fleeing && !conn.Minions.Owns(id))
                 {
                     double campDist = (m.SpawnPoint == default) ? 0 : Math.Sqrt((double)(mx - m.SpawnPoint.X) * (mx - m.SpawnPoint.X) + (double)(my - m.SpawnPoint.Y) * (my - m.SpawnPoint.Y));
-                    bool overLeashed = m.Rarity != MonsterRarity.Unique && campDist > 65;
-                    bool lostPlayer = m.Rarity != MonsterRarity.Unique && d > Math.Max(80, 1.2 * m.AggroRange);
+                    bool overLeashed = m.Rarity != MonsterRarity.Unique && campDist > m.AggroRange;
+                    bool lostPlayer = m.Rarity != MonsterRarity.Unique && d > m.AggroRange;
                     if (overLeashed || lostPlayer)
                     {
                         m.Aggro = false;
