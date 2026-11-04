@@ -391,7 +391,7 @@ static partial class Game
             var askers = new List<(MonsterSurround.Asker Asker, SpawnedMonster M, double D)>();
             foreach (var (id, m) in conn.Monsters)
             {
-                if (m.Dead || m.Life == 0 || m.OwnerId is not null || m.StageRunning
+                if (m.Dead || m.Life == 0 || m.OwnerId is not null || m.StageRunning || m.Asleep
                     || !MonsterAiCadence.Due(now, m.FlinchUntil)) continue;
                 // The King in the Mists has its own phase controller (KingInMists.cs): one action at a time, all its
                 // damage through MonsterSwing/MonsterAreaContact. Its Mystic Fetishes are stationary shrines the
