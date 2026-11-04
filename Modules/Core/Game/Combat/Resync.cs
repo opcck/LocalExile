@@ -33,7 +33,7 @@ static partial class Game
                     if (m.Dead || m.Life <= 0 || m.OwnerId is not null) continue;
                     var at = m.Walk.Position(now);
                     double d = Dist(at, player);
-                    if (!m.Asleep && d > WakeZoneRadius)
+                    if (!m.Asleep && d > WakeZoneRadius && !m.Returning)
                     {
                         m.Asleep = true;
                         packets.AddRange(InstanceProtocol.LeaveWakeZone(id));

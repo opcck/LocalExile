@@ -120,6 +120,10 @@ sealed class OpenShop(SpawnedNpc npc, Dictionary<uint, (uint Tab, InventoryItem 
 
 sealed class SpawnedMonster(string label, PlayerWalk walk, int aggroRange, int stopRange, uint maxLife)
 {
+    /// <summary>The monster's initial spawn/camp location in grid cells.</summary>
+    public (int X, int Y) SpawnPoint { get; init; }
+    /// <summary>Returning to its spawn camp after over-leashing; immune to passive re-aggro.</summary>
+    public bool Returning;
     /// <summary>Sent out of the wake zone (S→C 0x1aa): the client no longer ticks it.</summary>
     public bool Asleep;
     public MonsterAttack? Attack { get; init; }
